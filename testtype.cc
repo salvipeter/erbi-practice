@@ -38,16 +38,16 @@ bool TestType::handleKey(char c, int &num, int &ok)
 
   code += c;
 
-  if(code.length() < hanzi[next].sol.length()) {
-    putRomanString(12, 2, code, 1);
-    return false;
-  }
+  putRomanString(12, 2, code, 1);
 
   std::vector<HanziString>::const_iterator i = erbi[code].begin();
   bool solved = false;
   while(i != erbi[code].end() && !solved)
     if((*i++)[0] == hanzi[next].hs[0])
       solved = true;
+
+  if (!solved && code.size() < n)
+    return false;
 
   if(solved) {
     ++ok;
@@ -70,10 +70,6 @@ bool TestType::handleKey(char c, int &num, int &ok)
   ++num; ++next; code = "";
   putRomanString(12, 2, "           ");
   return true;
-}
-
-TestNKey::TestNKey(int nkey) : TestType(), n(nkey)
-{
 }
 
 void TestNKey::generateTest()

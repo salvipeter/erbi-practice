@@ -100,28 +100,20 @@ bool readErbiFile(const std::string &fname)
     std::string const code = s.substr(0, tabpos);
     std::string const hanzi = s.substr(tabpos + 1);
     erbi[code].push_back(convertToIndex(hanzi));
-    if(reverse.count(hanzi) > 0) {
-      if(reverse[hanzi].length() > code.length() || code[0] == 'u')
-	reverse[hanzi] = code;
-    } else
-      reverse[hanzi] = code;
-  }
-  f.close();
-  for(std::map<std::string, std::string>::const_iterator i = reverse.begin();
-      i != reverse.end(); ++i) {
-    switch(i->second.length()) {
-    case 1: vkey[0].push_back(i->second); break;
+    switch(code.length()) {
+    case 1: vkey[0].push_back(code); break;
     case 2:
-      if (i->second[0] == 'u')
-        ukey.push_back(i->second);
+      if (code[0] == 'u')
+        ukey.push_back(code);
       else
-        vkey[1].push_back(i->second);
+        vkey[1].push_back(code);
       break;
-    case 3: vkey[2].push_back(i->second); break;
+    case 3: vkey[2].push_back(code); break;
     default:
-      vkey[3].push_back(i->second);
+      vkey[3].push_back(code);
     }
   }
+  f.close();
   return true;
 }
 
