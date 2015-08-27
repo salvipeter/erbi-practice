@@ -2050,7 +2050,7 @@ huk	º³
 huk.	ãÈ
 hul	ß«
 hun	ãÛ
-hun	Şş
+huns	Şş
 hup	»¤
 hup;	»Ó
 hus	º´
@@ -2414,10 +2414,10 @@ jm	¼Ê
 jm/	Úá
 jmf	½×
 jmh	Úå
+jml	Ø½
 jmt	½µ
 jmv	æŞ
 jmz	æİ
-jmz	Ø½
 jn	¼´
 jn.	½¨
 jn.j	åò
@@ -3916,7 +3916,7 @@ pkd	Åğ
 pkf	Ø§
 pki	Åö
 pkl	·ñ
-pkl	Åé
+pklq	Åé
 pkm	Úü
 pkr	éè
 pkt	ŞË
@@ -4490,7 +4490,7 @@ s,,	Û¿
 s,.	æ¦
 s,k	Éï
 s,l	ÕÙ
-s,l	æ×
+s,lm	æ×
 s,m	ÉÛ
 s,o	Éô
 s,p	Ë¡
@@ -5119,7 +5119,7 @@ tko	íÈ
 tkp	Ì¬
 tl	Ìı
 tl,	ß¶
-tl,	õÁ
+tl,v	õÁ
 tl.	Ì¾
 tl.g	àÌ
 tl.l	õÌ
@@ -5728,9 +5728,9 @@ xlg	ßÈ
 xlh	Óõ
 xli	õó
 xlj	Ò¶
-xlj	ÏÅ
 xlja	ö±
 xljk	Ïø
+xljv	ÏÅ
 xljz	Îû
 xlk	Ïù
 xln	Ñ©
@@ -6196,8 +6196,8 @@ yiih	ìÈ
 yiii	ìÍ
 yik	éà
 yip	í¦
-yis	ìÏ
 yis	Øß
+yisy	ìÏ
 yit	Ñæ
 yiw	Ñø
 yiw.	ìÛ
