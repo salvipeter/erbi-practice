@@ -1,11 +1,9 @@
-// Wubi input method trainer
+// Erbi input method trainer
 //
-// Copyright (C) 2007 Peter Salvi <vukung@yahoo.com>
+// Copyright (C) 2007, 2015 Peter Salvi <vukung@yahoo.com>
 // 
 // Hanzi bitmap font is taken from the tetex package (jfs56),
-// the wubi database is based on a file from the cjkvinput project,
-// the origin of the two JPG files is unknown;
-// the pictures of the roots were extracted from the file wubi-keys.jpg.
+// the erbi database is based on the one in the SCIM project.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,12 +28,12 @@
 #include <SDL.h>
 
 #include "testtype.hh"
-#include "wubi.hh"
+#include "erbi.hh"
 
 int const width = 640, height = 480;
 
 std::vector<bool *> font;
-std::map<std::string, std::vector<HanziString> > wubi;
+std::map<std::string, std::vector<HanziString> > erbi;
 StringVector vkey[4], vmulti;
 SDL_Surface *screen;
 
@@ -89,7 +87,7 @@ HanziString convertToIndex(const std::string &str)
   return hs;
 }
 
-bool readWubiFile(const std::string &fname)
+bool readErbiFile(const std::string &fname)
 {
   std::string s;
   std::ifstream f(fname);
@@ -101,7 +99,7 @@ bool readWubiFile(const std::string &fname)
     size_t const tabpos = s.find('\t');
     std::string const code = s.substr(0, tabpos);
     std::string const hanzi = s.substr(tabpos + 1);
-    wubi[code].push_back(convertToIndex(hanzi));
+    erbi[code].push_back(convertToIndex(hanzi));
     if(reverse.count(hanzi) > 0) {
       if(reverse[hanzi].length() > code.length())
 	reverse[hanzi] = code;
@@ -280,9 +278,9 @@ int main(int argc, char *argv[])
   }
   std::cout << "done" << std::endl;
 
-  std::cout << "Reading wubi database... " << std::flush;
-  if (!readWubiFile("wubi.dat")) {
-    std::cerr << "error reading 'wubi.dat'" << std::endl;
+  std::cout << "Reading erbi database... " << std::flush;
+  if (!readErbiFile("erbi.dat")) {
+    std::cerr << "error reading 'erbi.dat'" << std::endl;
     return 1;
   }
   std::cout << "done" << std::endl;
@@ -298,7 +296,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  SDL_WM_SetCaption("Wubi Practice", "");
+  SDL_WM_SetCaption("Erbi Practice", "");
   setPalette();
 
   drawMenu();

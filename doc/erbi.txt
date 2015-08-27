@@ -1,0 +1,212 @@
+Ther erbi (二笔) IME has multiple versions, the most popular is called qingsong (青松).
+
+The advantage of this system in contrast to wubi, is that is easy to memorize.
+The drawback is that you need to know at least the first pinyin character.
+
+There are five basic strokes, these are in order:
+- horizontal (and not-really-horizontal strokes going from left to right)
+- vertical (with an optional hook at the end)
+- slanted down-left
+- slanted down-right (and dots generally)
+- other (mainly strokes with breaks in them)
+
+A character is built up as follows:
+
+(a) characters with only one part:
+1. the first pinyin character
+2. first and second strokes
+3. third and fourth strokes
+5. fifth stroke
+
+(b) left-right / top-bottom / enclosure characters:
+1. the first pinyin character
+2. first and second strokes of the first part
+3. first and second strokes of the second part
+4. third and fourth strokes of the second part
+
+The keyboard is divided into 6 regions:
+1. QWERT (down-left)
+2. YUIOP (down-right)
+3. ASDFG (vertical)
+4. HJKL; (horizontal)
+5. ZXCVB (one stroke)
+6. NM,./ (other)
+
+In each region the second strokes are encoded from left to right,
+so e.g. Q : down-left + horizontal; D : vertical + down-left,
+so in this way we can write two strokes with one key.
+If we want to write only one stroke, the "one stroke" region should be used.
+
+Examples:
+- 田: TGJZ (T[ian] + G [vertical+other] + J [horizontal+vertical] + Z [horizontal])
+- 规: GHGT (G[ui] + H [horizontal+horizontal] + G [vertical+other] + T [down-left+down-right])
+
+There are words with multiple characters, here the codes of all characters are distributed.
+Example:
+- 万岁: W;SG (W[an] + ; [horizontal+other] + S[ui] + G [vertical+other])
+- 毛主席: MQZX (M[ao] + Q [down-left+horizontal] + Z[hu] + X[i])
+- 中华人民共和国: ZHRG (Z[hong] H[ua] R[en] G[uo])
+
+Some common roots are mapped to keys:
+- Z: metal
+- X: wood
+- C: water
+- V: earth
+- B: grass
+- S: sun
+- D: moon
+- F: man
+- L: mouth
+- U: hand
+- I: fire
+
+Examples:
+- 木: MX (M[u] + X [wood])
+- 增: ZVIG (Z[eng] + V [earth] + I [down-right+down-left] + G [vertical+other]
+
+For some characters you don't have to write out the whole code,
+e.g. ZVIG above can be shortened to ZVI, but you have to "accept" it with the space key.
+
+With only the first character + space key, you can write the following:
+起为而人他一大有偶平
+安是的分个和就可了
+在学成这不你们
+[According to the variant, 偶 may be replaced by 哦, 成 by 产, etc.]
+
+It should be noted, that there are some keys that don't start a valid pinyin, but there are
+also characters mapped to these (though they can be written by their normal code, as well):
+- U: 大 (DKV)
+- I: 有 (YKD)
+- V: 这 (ZYPV)
+
+Also, the first character of a code cannot be punctuation,
+so these (;,./) can be used normally.
+
+These extra keys are also used in another way (though this may not be standard):
+some frequent characters can be written by U + one key:
+
+区我很认同以角首头排
+则四第化由于及科里倒
+总系重种吧建母放难呀
+
+In most cases the mapping is based on the first pinyin character,
+but there are quite a lot of inconsistencies, to write some common characters:
+- UE: 很 (HEN;)
+- UU: 角 (JTTH)
+- UI: 首 (SIKX)
+- UO: 头 (TOKV)
+- UA: 则 (ZGS)
+- UF: 化 (HFT)
+- UG: 由 (YGJZ)
+- UH: 于 (YHX)
+- U;: 倒 (DF;V)
+- UV: 种 (ZQGJ)
+- UN: 建 (JN.)
+- U,: 放 (FYQR)
+- U.: 难 (N.FY)
+- U/: 呀 (YL;D)
+
+In the same way, the I and V keys also have mappings - mainly symbols or compounds,
+it is interesting to experiment with them.
+
+Let's see a longer passage:
+
+因自皮面决眼，自屠出肠，遂以死。
+YG ZW P,.MK JYN YGN ,ZW TNJ CM CD,,SIPVUYSK .
+
+We can see here, that this method is good, but not perfect:
+the 遂 character cannot be differentiated from the 送 character,
+as both are written by the SIPV code.
+Some IME handle this by mapping the more frequent 送 to SIP,
+and the less frequent 遂 to the SIPV code.
+
+Even with these there are problems, e.g. 奶/努 (N,,).
+Here you still have to select from a list, but fortunately there are not so many of these,
+and in most cases at least one of the colliding characters is very rare.
+
+Here's a list of those characters whose code collide,
+not counting the combinations with multiple characters:
+
+BL;T : 哔/跸
+BTTN : 鲍/飑
+CJS  : 刺/曹
+CX.V : 杈/柽
+DGJ  : 盯/町
+DJJ  : 酊/耵
+DKJA : 碟/耷
+GGGH : 蝈/帼/蜾
+GGJL : 蛄/罟
+GGS  : 刚/刿
+GJT. : 毂/彀
+HCGJ : 涸/漶
+HCJA : 洪/潢
+HGJA : 蚶/蟥
+HGJL : 蝴/岵
+JBYR : 蒺/茭
+JGFW : 蚧/骱
+JJV  : 基/墼
+JKS  : 劂/剞
+JLKI : 蹶/噘
+JLYR : 霁/跻/哜
+JOHS : 蹇/謇
+JTL  : 句/咎
+JTYR : 饺/鲛/鲚
+JYM  : 郊/疖
+JYST : 竟/竭
+L/GJ : 蠡/缧
+LCXX : 淋/漤
+LCYR : 浏/漓/濂
+LGFP : 囹/蛉
+LGIJ : 髅/蝼/嵝/瞵
+LL,  : 另/叻
+LLGS : 啰/囉
+LLK, : 雳/呖
+LYIJ : 麟/瘘
+LYJN : 癞/瘌
+LYYG : 凛/廪
+MBGH : 苜/瞢
+MBSK : 莫/墓
+MBYC : 蘑/蘼
+MGBG : 瞄/蠛
+N,,  : 奶/努
+NLFZ : 噏/嗱
+PCJN : 浦/溥
+PYTN : 庖/疱
+QCX  : 渠/柒
+QXFY : 樵/檎
+SBMJ : 蔬/荪
+SCJA : 澌/滠
+SCJN : 漱/涑
+SFJ  : 什/隼
+SQJN : 簌/穗
+SUJA : 撒/撕
+TUKO : 挞/闼
+WJL  : 吾/軎
+XL,  : 吸/勋
+XXWN : 皙/檄
+Y/.H : 绎/驿
+YCGK : 泱/洇
+YG.L : 贻/眙
+YG/P : 黝/蚴
+YGKU : 崦/罨
+YGKV : 崖/睚
+YGTP : 鸯/鹦
+YJM  : 耶/鄢/鄞
+YLGH : 喁/嘢
+YLM  : 郢/郧
+YLYI : 噫/喑
+YTKG : 颖/颍
+YVZS : 垣/堰
+YYW; : 庾/瘐
+Z/TN : 绉/驺
+ZEGJ : 舯/舳
+ZGI; : 赚/嵫
+ZGQK : 蜘/帙
+ZGYI : 蟑/嶂/幛
+ZIMZ : 籽/孳
+ZLAA : 嘴/趾
+ZQJK : 筑/箸
+ZTS  : 旨/昝
+ZU.; : 摺/擢
+ZUGJ : 蛰/蜇
+ZXYI : 梓/樟

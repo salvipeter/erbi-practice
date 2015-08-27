@@ -1,4 +1,4 @@
-			    Wubi Practice
+			    Erbi Practice
 
 Usage
 -----
@@ -19,7 +19,7 @@ The program requires the SDL library. You can compile it with cmake:
   > cmake ..
   > make
 
-Note that program needs the 3 .dat files to be in the directory where you're running it from.
+Note that program needs the 2 .dat files to be in the directory where you're running it from.
 
   Peter  Salvi
 vukung@yahoo.com

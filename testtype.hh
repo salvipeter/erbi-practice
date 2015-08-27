@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "wubi.hh"
+#include "erbi.hh"
 
 struct PositionedHanzi
 {

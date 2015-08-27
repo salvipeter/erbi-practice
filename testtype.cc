@@ -4,7 +4,7 @@
 
 #include "testtype.hh"
 
-extern std::map<std::string, std::vector<HanziString> > wubi;
+extern std::map<std::string, std::vector<HanziString> > erbi;
 extern StringVector vkey[4], vmulti;
 
 void TestType::display() const
@@ -78,7 +78,7 @@ void TestNKey::generateTest()
     ph.x = 12 + (i % 11) * 56;
     ph.y = 62 + (i / 11) * 120;
     ph.sol = vkey[n-1][random() % vkey[n-1].size()];
-    std::vector<HanziString> tmp = wubi[ph.sol], tmp2;
+    std::vector<HanziString> tmp = erbi[ph.sol], tmp2;
     for(size_t i = 0; i < tmp.size(); ++i)
       if(tmp[i].size() == 1)
 	tmp2.push_back(tmp[i]);
@@ -100,9 +100,9 @@ bool TestNKey::handleKey(char c, int &num, int &ok)
     return false;
   }
 
-  std::vector<HanziString>::const_iterator i = wubi[code].begin();
+  std::vector<HanziString>::const_iterator i = erbi[code].begin();
   bool solved = false;
-  while(i != wubi[code].end() && !solved)
+  while(i != erbi[code].end() && !solved)
     if((*i++)[0] == hanzi[next].hs[0])
       solved = true;
 
@@ -112,8 +112,8 @@ bool TestNKey::handleKey(char c, int &num, int &ok)
   } else {
     bool one_hanzi = false;
     std::vector<HanziString>::const_iterator i;
-    if(wubi.count(code) > 0) {
-      for(i = wubi[code].begin(); i != wubi[code].end() && !one_hanzi; ++i)
+    if(erbi.count(code) > 0) {
+      for(i = erbi[code].begin(); i != erbi[code].end() && !one_hanzi; ++i)
 	if(i->size() == 1)
 	  one_hanzi = true;
     }
@@ -140,7 +140,7 @@ void TestMulti::generateTest()
   while(true) {
     PositionedHanzi ph;
     ph.sol = vmulti[random() % vmulti.size()];
-    std::vector<HanziString> tmp = wubi[ph.sol], tmp2;
+    std::vector<HanziString> tmp = erbi[ph.sol], tmp2;
     for(size_t i = 0; i < tmp.size(); ++i)
       if(tmp[i].size() > 1)
 	tmp2.push_back(tmp[i]);
@@ -176,7 +176,7 @@ bool TestMulti::handleKey(char c, int &num, int &ok)
 
   std::vector<HanziString>::const_iterator i;
   bool solved = false;
-  for(i = wubi[code].begin(); i != wubi[code].end() && !solved; ++i)
+  for(i = erbi[code].begin(); i != erbi[code].end() && !solved; ++i)
     if(i->size() == nchar) {
       int ok = true;
       for(size_t j = 0; j < i->size(); ++j)
@@ -192,8 +192,8 @@ bool TestMulti::handleKey(char c, int &num, int &ok)
   } else {
     bool not_too_long = false;
     std::vector<HanziString>::const_iterator i;
-    if(wubi.count(code) > 0) {
-      for(i = wubi[code].begin(); i != wubi[code].end() && !not_too_long; ++i)
+    if(erbi.count(code) > 0) {
+      for(i = erbi[code].begin(); i != erbi[code].end() && !not_too_long; ++i)
 	if(i->size() <= nchar)
 	  not_too_long = true;
     }

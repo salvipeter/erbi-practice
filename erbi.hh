@@ -1,5 +1,5 @@
-#ifndef WUBI_HH
-#define WUBI_HH
+#ifndef ERBI_HH
+#define ERBI_HH
 
 #include <string>
 #include <vector>
@@ -13,4 +13,4 @@ void putString(int x, int y, std::string str, unsigned char color = 4);
 void putHanziString(int x, int y, HanziString hs, unsigned char color = 4);
 void putRomanString(int x, int y, std::string str, unsigned char color = 4);
 
-#endif // WUBI_HH
+#endif // ERBI_HH
