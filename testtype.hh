@@ -19,26 +19,18 @@ typedef PHVector::const_iterator PHVectorCIterator;
 class TestType
 {
 public:
-  TestType() { next = 0; last_sol = "    "; srandom(time(NULL)); }
+  TestType() : last_sol("    "), code("") { next = 0; srandom(time(NULL)); }
   virtual ~TestType() { }
   bool noNext() const { return (next >= hanzi.size()); }
   virtual void generateTest() = 0;
   void display() const;
   void displayLastSolution();
   void displaySolution();
-  virtual bool handleKey(char c, int &num, int &ok) = 0;
+  bool handleKey(char c, int &num, int &ok);
 protected:
   size_t next;
-  std::string last_sol;
+  std::string last_sol, code;
   PHVector hanzi;
-};
-
-class TestRoots : public TestType
-{
-public:
-  TestRoots();
-  void generateTest();
-  bool handleKey(char c, int &num, int &ok);
 };
 
 class TestNKey : public TestType
@@ -46,20 +38,22 @@ class TestNKey : public TestType
 public:
   TestNKey(int nkey);
   void generateTest();
-  bool handleKey(char c, int &num, int &ok);
 private:
   int n;
-  std::string code;
 };
 
-class TestMulti: public TestType
+class TestUKey: public TestType
 {
 public:
-  TestMulti();
+  TestUKey() { }
   void generateTest();
-  bool handleKey(char c, int &num, int &ok);
-private:
-  std::string code;
+};
+
+class TestAll: public TestType
+{
+public:
+  TestAll() { }
+  void generateTest();
 };
 
 #endif // TESTTYPE_HH

@@ -5,7 +5,7 @@
 #include "testtype.hh"
 
 extern std::map<std::string, std::vector<HanziString> > erbi;
-extern StringVector vkey[4], vmulti;
+extern StringVector vkey[4], ukey;
 
 void TestType::display() const
 {
@@ -31,66 +31,9 @@ void TestType::displaySolution()
   putRomanString(404, 2, hanzi[next].sol, 2);
 }
 
-TestRoots::TestRoots() : TestType()
+bool TestType::handleKey(char c, int &num, int &ok)
 {
-}
-
-void TestRoots::generateTest()
-{
-  hanzi.clear();
-  for(int i = 0; i < 33; ++i) {
-    PositionedHanzi ph;
-    ph.x = 12 + (i % 11) * 56;
-    ph.y = 62 + (i / 11) * 120;
-    ph.hs.push_back(7427 + (random() % 194));
-    ph.sol = rootCode(ph.hs.back());
-    hanzi.push_back(ph);
-  }
-  next = 0;
-}
-
-bool TestRoots::handleKey(char c, int &num, int &ok)
-{
-  if(c < 'a' || c >= 'z')
-    return false;
-
-  if(c == hanzi[next].sol[0]) {
-    ++ok;
-    putCharacter(hanzi[next].x, hanzi[next].y + 60, hanzi[next].hs[0], 2);
-  } else
-    putString(hanzi[next].x, hanzi[next].y + 60, "¡Á", 1);
-
-  last_sol = hanzi[next].sol;
-  ++num; ++next;
-  putRomanString(12, 2, "           ");
-  return true;
-}
-
-TestNKey::TestNKey(int nkey) : TestType(), n(nkey), code("")
-{
-}
-
-void TestNKey::generateTest()
-{
-  hanzi.clear();
-  for(int i = 0; i < 33; ++i) {
-    PositionedHanzi ph;
-    ph.x = 12 + (i % 11) * 56;
-    ph.y = 62 + (i / 11) * 120;
-    ph.sol = vkey[n-1][random() % vkey[n-1].size()];
-    std::vector<HanziString> tmp = erbi[ph.sol], tmp2;
-    for(size_t i = 0; i < tmp.size(); ++i)
-      if(tmp[i].size() == 1)
-	tmp2.push_back(tmp[i]);
-    ph.hs = tmp2[random() % tmp2.size()];
-    hanzi.push_back(ph);
-  }
-  next = 0;
-}
-
-bool TestNKey::handleKey(char c, int &num, int &ok)
-{
-  if(c < 'a' || c >= 'z')
+  if(!((c >= 'a' && c <= 'z') || c == '.' || c == ',' || c == '/' || c == ';'))
     return false;
 
   code += c;
@@ -129,82 +72,64 @@ bool TestNKey::handleKey(char c, int &num, int &ok)
   return true;
 }
 
-TestMulti::TestMulti() : TestType(), code("")
+TestNKey::TestNKey(int nkey) : TestType(), n(nkey)
 {
 }
 
-void TestMulti::generateTest()
+void TestNKey::generateTest()
 {
-  int last_x = -1, last_y = 1;
   hanzi.clear();
-  while(true) {
+  for(int i = 0; i < 33; ++i) {
     PositionedHanzi ph;
-    ph.sol = vmulti[random() % vmulti.size()];
+    ph.x = 12 + (i % 11) * 56;
+    ph.y = 62 + (i / 11) * 120;
+    ph.sol = vkey[n-1][random() % vkey[n-1].size()];
     std::vector<HanziString> tmp = erbi[ph.sol], tmp2;
     for(size_t i = 0; i < tmp.size(); ++i)
-      if(tmp[i].size() > 1)
+      if(tmp[i].size() == 1)
 	tmp2.push_back(tmp[i]);
     ph.hs = tmp2[random() % tmp2.size()];
-    ++last_x;
-    if(last_x + ph.hs.size() > 10) {
-      last_x = 0;
-      last_y += 2;
-    }
-    if(last_y > 5)
-      break;
-    ph.x = 12 + last_x * 56;
-    ph.y = 2 + last_y * 60;
     hanzi.push_back(ph);
-    last_x += ph.hs.size();
   }
   next = 0;
 }
 
-bool TestMulti::handleKey(char c, int &num, int &ok)
+void TestUKey::generateTest()
 {
-  if(c < 'a' || c >= 'z')
-    return false;
-
-  code += c;
-
-  if(code.length() < 4) {
-    putRomanString(12, 2, code, 1);
-    return false;
+  hanzi.clear();
+  for(int i = 0; i < 33; ++i) {
+    PositionedHanzi ph;
+    ph.x = 12 + (i % 11) * 56;
+    ph.y = 62 + (i / 11) * 120;
+    ph.sol = ukey[random() % ukey.size()];
+    std::vector<HanziString> tmp = erbi[ph.sol], tmp2;
+    for(size_t i = 0; i < tmp.size(); ++i)
+      if(tmp[i].size() == 1)
+	tmp2.push_back(tmp[i]);
+    ph.hs = tmp2[random() % tmp2.size()];
+    hanzi.push_back(ph);
   }
+  next = 0;
+}
 
-  size_t nchar = hanzi[next].hs.size();
-
-  std::vector<HanziString>::const_iterator i;
-  bool solved = false;
-  for(i = erbi[code].begin(); i != erbi[code].end() && !solved; ++i)
-    if(i->size() == nchar) {
-      int ok = true;
-      for(size_t j = 0; j < i->size(); ++j)
-	if((*i)[j] != hanzi[next].hs[j])
-	  ok = false;
-      if(ok)
-	solved = true;
-    }
-
-  if(solved) {
-    ok += nchar;
-    putHanziString(hanzi[next].x, hanzi[next].y + 60, hanzi[next].hs, 2);
-  } else {
-    bool not_too_long = false;
-    std::vector<HanziString>::const_iterator i;
-    if(erbi.count(code) > 0) {
-      for(i = erbi[code].begin(); i != erbi[code].end() && !not_too_long; ++i)
-	if(i->size() <= nchar)
-	  not_too_long = true;
-    }
-    if(not_too_long)
-      putHanziString(hanzi[next].x, hanzi[next].y + 60, (*(i-1)), 1);
+void TestAll::generateTest()
+{
+  hanzi.clear();
+  for(int i = 0; i < 33; ++i) {
+    PositionedHanzi ph;
+    ph.x = 12 + (i % 11) * 56;
+    ph.y = 62 + (i / 11) * 120;
+    int type = random() % 5;
+    if (type == 4)
+      ph.sol = ukey[random() % ukey.size()];
     else
-      putString(hanzi[next].x, hanzi[next].y + 60, "¡Á", 1);
+      ph.sol = vkey[type][random() % vkey[type].size()];
+    std::vector<HanziString> tmp = erbi[ph.sol], tmp2;
+    for(size_t i = 0; i < tmp.size(); ++i)
+      if(tmp[i].size() == 1)
+	tmp2.push_back(tmp[i]);
+    ph.hs = tmp2[random() % tmp2.size()];
+    hanzi.push_back(ph);
   }
-
-  last_sol = hanzi[next].sol;
-  num += nchar; ++next; code = "";
-  putRomanString(12, 2, "           ");
-  return true;
+  next = 0;
 }

@@ -34,7 +34,7 @@ int const width = 640, height = 480;
 
 std::vector<bool *> font;
 std::map<std::string, std::vector<HanziString> > erbi;
-StringVector vkey[4], vmulti;
+StringVector vkey[4], ukey;
 SDL_Surface *screen;
 
 bool readFontFile(const std::string &fname)
@@ -101,7 +101,7 @@ bool readErbiFile(const std::string &fname)
     std::string const hanzi = s.substr(tabpos + 1);
     erbi[code].push_back(convertToIndex(hanzi));
     if(reverse.count(hanzi) > 0) {
-      if(reverse[hanzi].length() > code.length())
+      if(reverse[hanzi].length() > code.length() || code[0] == 'u')
 	reverse[hanzi] = code;
     } else
       reverse[hanzi] = code;
@@ -111,34 +111,18 @@ bool readErbiFile(const std::string &fname)
       i != reverse.end(); ++i) {
     switch(i->second.length()) {
     case 1: vkey[0].push_back(i->second); break;
-    case 2: vkey[1].push_back(i->second); break;
+    case 2:
+      if (i->second[0] == 'u')
+        ukey.push_back(i->second);
+      else
+        vkey[1].push_back(i->second);
+      break;
     case 3: vkey[2].push_back(i->second); break;
     default:
-      if(i->first.length() > 2)
-	vmulti.push_back(i->second);
-      else
-	vkey[3].push_back(i->second);
+      vkey[3].push_back(i->second);
     }
   }
   return true;
-}
-
-char rootCode(size_t index)
-{
-  char const codes[] = { 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-			 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
-			 'x', 'c', 'v', 'b', 'n', 'm' };
-  size_t const entries[] = { 12, 5, 13, 8, 8, 9, 9, 8, 4, 6,
-			     8, 3, 12, 8, 5, 9, 9, 3, 10,
-			     6, 6, 6, 10, 11, 6 };
-  index -= 7427;
-
-  size_t i = 0, offs = 0;
-  do {
-    offs += entries[i++];
-  } while(offs <= index);
-
-  return codes[i-1];
 }
 
 void setPalette()
@@ -208,13 +192,13 @@ void clearScreen()
 
 void drawMenu()
 {
-  putString(12, 2, "五笔练习", 1);
-  putString(12, 62, "㈠部首");
-  putString(12, 122, "㈡一字一键");
-  putString(12, 182, "㈢一字二键");
-  putString(12, 242, "㈣一字三键");
-  putString(12, 302, "㈤一字四键");
-  putString(12, 362, "㈥多字");
+  putString(12, 2, "二笔练习", 1);
+  putString(12, 62, "㈠练习一个键的字");
+  putString(12, 122, "㈡练习两个键的常用字");
+  putString(12, 182, "㈢练习两个键的字");
+  putString(12, 242, "㈣练习三个键的字");
+  putString(12, 302, "㈤练习四个键的字");
+  putString(12, 362, "㈥练习所有的字");
   putString(12, 422, "㈦退出");
 }
 
@@ -250,7 +234,7 @@ void practice(TestType *prac)
       switch(event.key.keysym.sym) {
       case SDLK_ESCAPE: quit = true; break;
       case SDLK_BACKSLASH: prac->displayLastSolution(); break;
-      case SDLK_z: prac->displaySolution(); break;
+      case SDLK_BACKQUOTE: prac->displaySolution(); break;
       default:
 	if(prac->handleKey(event.key.keysym.sym, num, ok)) {
 	  Uint32 const elapsed = SDL_GetTicks() - start;
@@ -270,10 +254,6 @@ int main(int argc, char *argv[])
   font.reserve(8000);
   if (!readFontFile("font.dat")) {	// 7427 characters
     std::cerr << "error reading 'font.dat'" << std::endl;
-    return 1;
-  }
-  if (!readFontFile("roots.dat")) {	//  194 characters
-    std::cerr << "error reading 'roots.dat'" << std::endl;
     return 1;
   }
   std::cout << "done" << std::endl;
@@ -308,12 +288,12 @@ int main(int argc, char *argv[])
     SDL_WaitEvent(&event);
     if(event.type == SDL_KEYDOWN) {
       switch(event.key.keysym.sym) {
-      case SDLK_1: prac = new TestRoots(); action = true; break;
-      case SDLK_2: prac = new TestNKey(1); action = true; break;
+      case SDLK_1: prac = new TestNKey(1); action = true; break;
+      case SDLK_2: prac = new TestUKey();  action = true; break;
       case SDLK_3: prac = new TestNKey(2); action = true; break;
       case SDLK_4: prac = new TestNKey(3); action = true; break;
       case SDLK_5: prac = new TestNKey(4); action = true; break;
-      case SDLK_6: prac = new TestMulti(); action = true; break;
+      case SDLK_6: prac = new TestAll();   action = true; break;
       case SDLK_7:
       case SDLK_q: quit = true; break;
       default: ;

@@ -5,7 +5,7 @@ Usage
 
 In practice mode, the following keys have special meanings:
 - escape : return to the main menu
-- z      : show the solution
+- `      : show the solution
 - \      : show the solution for the last one
 
 This is a fairly minimal implementation, but I hope it will help you improve.
