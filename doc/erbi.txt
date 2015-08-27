@@ -47,6 +47,8 @@ Example:
 - 毛主席: MQZX (M[ao] + Q [down-left+horizontal] + Z[hu] + X[i])
 - 中华人民共和国: ZHRG (Z[hong] H[ua] R[en] G[uo])
 
+Note: my implementation does not support multiple characters.
+
 Some common roots are mapped to keys:
 - Z: metal
 - X: wood
@@ -66,6 +68,13 @@ Examples:
 
 For some characters you don't have to write out the whole code,
 e.g. ZVIG above can be shortened to ZVI, but you have to "accept" it with the space key.
+
+Note: in my implementation, you should write a code only until the right character appears,
+e.g. writing TGJZ, you see the character changing like this: 他团町田,
+so if you wanted to type "团", you need to stop at the second character by typing a space.
+Also, when there are no continuations, the character is accepted automatically,
+so e.g. ZVI writes 增 without the need of a final space keypress,
+because there are no other codes starting with ZVI.
 
 With only the first character + space key, you can write the following:
 起为而人他一大有偶平
@@ -90,123 +99,134 @@ some frequent characters can be written by U + one key:
 总系重种吧建母放难呀
 
 In most cases the mapping is based on the first pinyin character,
-but there are quite a lot of inconsistencies, to write some common characters:
-- UE: 很 (HEN;)
-- UU: 角 (JTTH)
-- UI: 首 (SIKX)
-- UO: 头 (TOKV)
-- UA: 则 (ZGS)
-- UF: 化 (HFT)
-- UG: 由 (YGJZ)
-- UH: 于 (YHX)
-- U;: 倒 (DF;V)
-- UV: 种 (ZQGJ)
-- UN: 建 (JN.)
-- U,: 放 (FYQR)
-- U.: 难 (N.FY)
-- U/: 呀 (YL;D)
+but there are quite a lot of inconsistencies, to write some common characters.
+
+Note: in my version, I preferred this mapping:
+
+却王怎认头以手西种吧
+当事都放工很己科里老
+主行重同便女名知于四
 
 In the same way, the I and V keys also have mappings - mainly symbols or compounds,
 it is interesting to experiment with them.
 
-Let's see a longer passage:
+Note: in my version there is no multikey combination mapped to I or V.
 
-因自皮面决眼，自屠出肠，遂以死。
-YG ZW P,.MK JYN YGN ,ZW TNJ CM CD,,SIPVUYSK .
+Let's see a sentence:
 
-We can see here, that this method is good, but not perfect:
-the 遂 character cannot be differentiated from the 送 character,
+二笔输入法非常有意思，对吧？
+EH BQ S;FRR FC FA CFL IYYPSGP,D. UP?
+
+The main advantage of this method is that you don't have to choose from lists.
+This is true most of the time, but there are difficult cases.
+For example, the 遂 character cannot be differentiated from the 送 character,
 as both are written by the SIPV code.
-Some IME handle this by mapping the more frequent 送 to SIP,
+My implementation handles this by mapping the more frequent 送 to SIP,
 and the less frequent 遂 to the SIPV code.
 
-Even with these there are problems, e.g. 奶/努 (N,,).
+Even with this, there are problems, e.g. 奶/努 (N,,).
 Here you still have to select from a list, but fortunately there are not so many of these,
 and in most cases at least one of the colliding characters is very rare.
 
 Here's a list of those characters whose code collide,
 not counting the combinations with multiple characters:
 
-BL;T : 哔/跸
-BTTN : 鲍/飑
-CJS  : 刺/曹
-CX.V : 杈/柽
-DGJ  : 盯/町
-DJJ  : 酊/耵
-DKJA : 碟/耷
-GGGH : 蝈/帼/蜾
-GGJL : 蛄/罟
-GGS  : 刚/刿
-GJT. : 毂/彀
-HCGJ : 涸/漶
-HCJA : 洪/潢
-HGJA : 蚶/蟥
-HGJL : 蝴/岵
-JBYR : 蒺/茭
-JGFW : 蚧/骱
-JJV  : 基/墼
-JKS  : 劂/剞
-JLKI : 蹶/噘
-JLYR : 霁/跻/哜
-JOHS : 蹇/謇
-JTL  : 句/咎
-JTYR : 饺/鲛/鲚
-JYM  : 郊/疖
-JYST : 竟/竭
-L/GJ : 蠡/缧
-LCXX : 淋/漤
-LCYR : 浏/漓/濂
-LGFP : 囹/蛉
-LGIJ : 髅/蝼/嵝/瞵
-LL,  : 另/叻
-LLGS : 啰/囉
-LLK, : 雳/呖
-LYIJ : 麟/瘘
-LYJN : 癞/瘌
-LYYG : 凛/廪
-MBGH : 苜/瞢
-MBSK : 莫/墓
-MBYC : 蘑/蘼
-MGBG : 瞄/蠛
-N,,  : 奶/努
-NLFZ : 噏/嗱
-PCJN : 浦/溥
-PYTN : 庖/疱
-QCX  : 渠/柒
-QXFY : 樵/檎
-SBMJ : 蔬/荪
-SCJA : 澌/滠
-SCJN : 漱/涑
-SFJ  : 什/隼
-SQJN : 簌/穗
-SUJA : 撒/撕
-TUKO : 挞/闼
-WJL  : 吾/軎
-XL,  : 吸/勋
-XXWN : 皙/檄
-Y/.H : 绎/驿
-YCGK : 泱/洇
-YG.L : 贻/眙
-YG/P : 黝/蚴
-YGKU : 崦/罨
-YGKV : 崖/睚
-YGTP : 鸯/鹦
-YJM  : 耶/鄢/鄞
-YLGH : 喁/嘢
-YLM  : 郢/郧
-YLYI : 噫/喑
-YTKG : 颖/颍
-YVZS : 垣/堰
-YYW; : 庾/瘐
-Z/TN : 绉/驺
-ZEGJ : 舯/舳
-ZGI; : 赚/嵫
-ZGQK : 蜘/帙
-ZGYI : 蟑/嶂/幛
-ZIMZ : 籽/孳
-ZLAA : 嘴/趾
-ZQJK : 筑/箸
-ZTS  : 旨/昝
-ZU.; : 摺/擢
-ZUGJ : 蛰/蜇
-ZXYI : 梓/樟
+BL;T	哔跸
+BTTN	鲍飑
+CGHK	蝽帱
+CJS	刺曹
+CUQA	捶攒
+CX.V	杈柽
+CYFF	卒痤
+CYGH	衰廛
+DGJ	盯町
+DJJ	酊耵
+DKJA	碟耷
+DLJA	喋蹀
+GGGH	蝈帼蜾
+GGJL	蛄罟
+GGS	刚刿
+GJGF	贡贾
+GJT.	毂彀
+HCGJ	溃涸漶
+HCJA	洪潢
+HGJA	蚶蟥
+HGJL	蝴岵
+JBYR	荠蒺茭
+JGFW	蚧骱
+JGFY	瞿雎
+JJV	基墼
+JKS	劂剞
+JLKI	蹶噘
+JLYR	霁跻哜
+JOHS	蹇謇
+JTGH	飓龟
+JTL	句咎
+JTYR	饺鲛鲚
+JYM	郊疖
+JYST	竟竭
+KOGH	窠悝
+L/GJ	蠡缧
+LCGJ	漯澧
+LCXX	淋漤
+LCYR	浏漓濂
+LGFP	囹蛉
+LGIJ	髅蝼嵝瞵
+LKTV	硌尥
+LL,	另叻
+LLK,	雳呖
+LYIJ	麟瘘
+LYJN	癞瘌
+LYYG	凛廪
+M/	马乜
+MBGH	苜瞢
+MBSK	莫墓
+MBYC	蘑蘼
+MGBG	瞄蠛
+N,,	奶努
+PCJN	浦溥
+PYTN	庖疱
+QCX	渠柒
+QGHA	蜻圊
+QGIH	蜷蜣
+QJT	欺壳
+QXFY	樵檎
+SBMJ	蔬荪
+SCJA	澌滠
+SCJN	漱涑
+SFJ	什隼
+SQJN	簌穗
+SUJA	撒撕揲
+TUKO	挞闼
+WJL	吾軎
+XBYI	薪莘
+XL,	吸勋
+XLA,	嘘噱
+XXWN	皙檄
+Y/.H	绎驿
+YCGK	泱洇
+YG.L	贻眙
+YG/P	黝蚴
+YGKU	崦罨
+YGKV	崖睚
+YGTP	鸯鹦
+YJM	耶鄞鄢
+YLM	郢郧
+YLYI	噫喑
+YTKG	颖颍
+YVZS	垣堰
+YYW;	庾瘐裒
+Z/TN	绉驺
+ZEGJ	舯舳
+ZGI;	赚嵫
+ZGQK	蜘帙
+ZGYI	幢蟑嶂幛
+ZIMZ	籽孳
+ZLAA	嘴趾呲
+ZQJK	筑箸
+ZTS	旨昝
+ZU.;	摺擢
+ZUGJ	蛰蜇
+ZXYI	梓樟
+ZYKG	斋颤
+ZYPO	恣戆
